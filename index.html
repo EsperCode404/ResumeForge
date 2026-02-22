@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResumeForge - AI Resume Builder</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="cyber-bg"></div>
+    
+    <header class="hud-header">
+        <div class="logo">
+            <i class="fas fa-file-alt"></i>
+            <span>RESUMEFORGE</span>
+        </div>
+        <div class="header-actions">
+            <button id="previewBtn" class="hud-btn">
+                <i class="fas fa-eye"></i> Preview
+            </button>
+            <button id="exportBtn" class="hud-btn">
+                <i class="fas fa-download"></i> Export
+            </button>
+            <button id="aiAssistBtn" class="hud-btn active">
+                <i class="fas fa-robot"></i> AI Assist
+            </button>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <aside class="builder-panel">
+            <div class="panel-header">
+                <h2><i class="fas fa-tools"></i> Resume Builder</h2>
+                <div class="template-selector">
+                    <select id="templateSelect">
+                        <option value="modern">Modern</option>
+                        <option value="creative">Creative</option>
+                        <option value="professional">Professional</option>
+                        <option value="minimal">Minimal</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="sections-container">
+                <!-- Personal Info Section -->
+                <div class="section" data-section="personal">
+                    <div class="section-header">
+                        <h3><i class="fas fa-user"></i> Personal Information</h3>
+                        <button class="toggle-section"><i class="fas fa-chevron-down"></i></button>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="fullName" placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label>Professional Title</label>
+                            <input type="text" id="title" placeholder="Senior Software Engineer">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="email" placeholder="john@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" id="phone" placeholder="+1 (555) 123-4567">
+                        </div>
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input type="text" id="location" placeholder="San Francisco, CA">
+                        </div>
+                        <div class="form-group">
+                            <label>LinkedIn</label>
+                            <input type="url" id="linkedin" placeholder="linkedin.com/in/johndoe">
+                        </div>
+                        <div class="form-group">
+                            <label>Portfolio</label>
+                            <input type="url" id="portfolio" placeholder="johndoe.dev">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Section -->
+                <div class="section" data-section="summary">
+                    <div class="section-header">
+                        <h3><i class="fas fa-align-left"></i> Professional Summary</h3>
+                        <button class="toggle-section"><i class="fas fa-chevron-down"></i></button>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <textarea id="summary" rows="4" placeholder="Experienced software engineer with 5+ years of expertise in full-stack development..."></textarea>
+                            <button class="ai-suggest-btn" data-field="summary">
+                                <i class="fas fa-magic"></i> AI Suggest
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Experience Section -->
+                <div class="section" data-section="experience">
+                    <div class="section-header">
+                        <h3><i class="fas fa-briefcase"></i> Work Experience</h3>
+                        <button class="add-item" data-section="experience">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="section-content" id="experienceList">
+                        <!-- Experience items will be added dynamically -->
+                    </div>
+                </div>
+
+                <!-- Education Section -->
+                <div class="section" data-section="education">
+                    <div class="section-header">
+                        <h3><i class="fas fa-graduation-cap"></i> Education</h3>
+                        <button class="add-item" data-section="education">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="section-content" id="educationList">
+                        <!-- Education items will be added dynamically -->
+                    </div>
+                </div>
+
+                <!-- Skills Section -->
+                <div class="section" data-section="skills">
+                    <div class="section-header">
+                        <h3><i class="fas fa-code"></i> Skills</h3>
+                        <button class="add-item" data-section="skills">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="section-content" id="skillsList">
+                        <!-- Skills will be added dynamically -->
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <section class="preview-panel">
+            <div class="preview-header">
+                <h2><i class="fas fa-eye"></i> Live Preview</h2>
+                <div class="preview-actions">
+                    <button id="zoomIn"><i class="fas fa-search-plus"></i></button>
+                    <button id="zoomOut"><i class="fas fa-search-minus"></i></button>
+                    <button id="resetZoom"><i class="fas fa-compress"></i></button>
+                </div>
+            </div>
+            <div class="preview-container" id="previewContainer">
+                <div class="resume-preview" id="resumePreview">
+                    <!-- Resume preview will be rendered here -->
+                </div>
+            </div>
+            <div class="preview-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Words:</span>
+                    <span class="stat-value" id="wordCount">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Characters:</span>
+                    <span class="stat-value" id="charCount">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">ATS Score:</span>
+                    <span class="stat-value" id="atsScore">0%</span>
+                </div>
+            </div>
+        </section>
+
+        <aside class="ai-panel">
+            <div class="panel-header">
+                <h2><i class="fas fa-robot"></i> AI Assistant</h2>
+                <div class="ai-status">
+                    <span class="status-dot active"></span>
+                    <span>Online</span>
+                </div>
+            </div>
+
+            <div class="ai-content">
+                <div class="ai-section">
+                    <h3><i class="fas fa-search"></i> Job Description Analysis</h3>
+                    <textarea id="jobDescription" rows="4" placeholder="Paste job description here to tailor your resume..."></textarea>
+                    <button id="analyzeJobBtn" class="ai-btn">
+                        <i class="fas fa-brain"></i> Analyze & Suggest
+                    </button>
+                </div>
+
+                <div class="ai-section">
+                    <h3><i class="fas fa-lightbulb"></i> AI Suggestions</h3>
+                    <div id="aiSuggestions" class="suggestions-list">
+                        <div class="suggestion-item">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Start filling your resume to get AI suggestions</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ai-section">
+                    <h3><i class="fas fa-chart-line"></i> Resume Analytics</h3>
+                    <div class="analytics-grid">
+                        <div class="metric">
+                            <span class="metric-label">Strength</span>
+                            <div class="metric-bar">
+                                <div class="metric-fill" id="strengthBar" style="width: 0%"></div>
+                            </div>
+                            <span class="metric-value" id="strengthValue">0%</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Keywords</span>
+                            <div class="metric-bar">
+                                <div class="metric-fill" id="keywordsBar" style="width: 0%"></div>
+                            </div>
+                            <span class="metric-value" id="keywordsValue">0%</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Impact</span>
+                            <div class="metric-bar">
+                                <div class="metric-fill" id="impactBar" style="width: 0%"></div>
+                            </div>
+                            <span class="metric-value" id="impactValue">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <footer class="hud-footer">
+        <div class="status-bar">
+            <span id="status">Ready</span>
+            <span id="timestamp"></span>
+            <span id="autoSave">Auto-saved</span>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="exportModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Export Resume</h3>
+                <button class="close-modal">&​times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="export-options">
+                    <button class="export-option" data-format="pdf">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>PDF</span>
+                    </button>
+                    <button class="export-option" data-format="docx">
+                        <i class="fas fa-file-word"></i>
+                        <span>Word</span>
+                    </button>
+                    <button class="export-option" data-format="html">
+                        <i class="fas fa-file-code"></i>
+                        <span>HTML</span>
+                    </button>
+                    <button class="export-option" data-format="json">
+                        <i class="fas fa-file-alt"></i>
+                        <span>JSON</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
