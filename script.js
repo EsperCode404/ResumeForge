@@ -38,6 +38,10 @@ class ResumeForge {
             this.toggleAI();
         });
 
+        document.getElementById('clearAllBtn').addEventListener('click', () => {
+            this.clearAllData();
+        });
+
         // Template selector
         document.getElementById('templateSelect').addEventListener('change', (e) => {
             this.currentTemplate = e.target.value;
@@ -757,6 +761,50 @@ class ResumeForge {
         const now = new Date();
         document.getElementById('timestamp').textContent = 
             now.toLocaleTimeString('en-US', { hour12: false });
+    }
+
+    clearAllData() {
+        if (confirm('Are you sure you want to clear all resume data? This will remove everything and cannot be undone.')) {
+            // Clear LocalStorage
+            localStorage.removeItem('resumeData');
+            
+            // Reset data object
+            this.resumeData = {
+                personal: {},
+                summary: '',
+                experience: [],
+                education: [],
+                skills: []
+            };
+            
+            // Clear form fields
+            document.getElementById('fullName').value = '';
+            document.getElementById('title').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('location').value = '';
+            document.getElementById('linkedin').value = '';
+            document.getElementById('portfolio').value = '';
+            document.getElementById('summary').value = '';
+            
+            // Clear dynamic sections
+            document.getElementById('experienceList').innerHTML = '';
+            document.getElementById('educationList').innerHTML = '';
+            document.getElementById('skillsList').innerHTML = '';
+            
+            // Reset preview and stats
+            this.updatePreview();
+            this.updateStats();
+            this.updateStatus('All data cleared');
+            
+            // Clear AI suggestions
+            document.getElementById('aiSuggestions').innerHTML = `
+                <div class="suggestion-item">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Start building your resume to get AI suggestions</span>
+                </div>
+            `;
+        }
     }
 }
 
