@@ -633,7 +633,6 @@ class ResumeForge {
         
         this.updateStatus('Analyzing job description...');
         
-        // Simulate AI analysis
         setTimeout(() => {
             const keywords = this.extractKeywords(jobDesc);
             const suggestions = this.generateSuggestions(keywords);
@@ -710,7 +709,7 @@ class ResumeForge {
             setTimeout(() => {
                 document.getElementById('autoSave').textContent = '';
             }, 2000);
-        }, 30000); // Auto-save every 30 seconds
+        }, 30000);
     }
 
     saveToLocalStorage() {
@@ -730,7 +729,6 @@ class ResumeForge {
     }
 
     populateForm() {
-        // Populate personal info
         Object.keys(this.resumeData.personal).forEach(key => {
             const element = document.getElementById(key);
             if (element) {
@@ -738,13 +736,11 @@ class ResumeForge {
             }
         });
 
-        // Populate summary
         const summaryElement = document.getElementById('summary');
         if (summaryElement) {
             summaryElement.value = this.resumeData.summary;
         }
 
-        // Populate dynamic sections
         this.resumeData.experience.forEach(item => this.renderExperienceItem(item));
         this.resumeData.education.forEach(item => this.renderEducationItem(item));
         this.resumeData.skills.forEach(item => this.renderSkillItem(item));
@@ -765,10 +761,8 @@ class ResumeForge {
 
     clearAllData() {
         if (confirm('Are you sure you want to clear all resume data? This will remove everything and cannot be undone.')) {
-            // Clear LocalStorage
             localStorage.removeItem('resumeData');
             
-            // Reset data object
             this.resumeData = {
                 personal: {},
                 summary: '',
@@ -777,7 +771,6 @@ class ResumeForge {
                 skills: []
             };
             
-            // Clear form fields
             document.getElementById('fullName').value = '';
             document.getElementById('title').value = '';
             document.getElementById('email').value = '';
@@ -787,17 +780,14 @@ class ResumeForge {
             document.getElementById('portfolio').value = '';
             document.getElementById('summary').value = '';
             
-            // Clear dynamic sections
             document.getElementById('experienceList').innerHTML = '';
             document.getElementById('educationList').innerHTML = '';
             document.getElementById('skillsList').innerHTML = '';
             
-            // Reset preview and stats
             this.updatePreview();
             this.updateStats();
             this.updateStatus('All data cleared');
             
-            // Clear AI suggestions
             document.getElementById('aiSuggestions').innerHTML = `
                 <div class="suggestion-item">
                     <i class="fas fa-info-circle"></i>
@@ -808,7 +798,6 @@ class ResumeForge {
     }
 }
 
-// Initialize the application
 let resumeForge;
 document.addEventListener('DOMContentLoaded', () => {
     resumeForge = new ResumeForge();
